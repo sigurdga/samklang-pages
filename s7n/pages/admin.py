@@ -5,7 +5,7 @@ from s7n.pages.forms import PageForm
 class PageAdminForm(PageForm):
 
     class Meta:
-        fields = ('url', 'name', 'content', 'sites', 'user', 'group', 'admingroup')
+        fields = ('url', 'name', 'content', 'site', 'user', 'group', 'admingroup')
 
 class PageAdmin(admin.ModelAdmin):
     form = PageAdminForm

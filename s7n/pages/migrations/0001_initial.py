@@ -15,28 +15,18 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('content', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('content_html', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('site', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sites.Site'])),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('group', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='pages', null=True, to=orm['auth.Group'])),
-            ('admingroup', self.gf('django.db.models.fields.related.ForeignKey')(related_name='admingroup', to=orm['auth.Group'])),
+            ('admingroup', self.gf('django.db.models.fields.related.ForeignKey')(related_name='administers_pages', to=orm['auth.Group'])),
         ))
         db.send_create_signal('pages', ['Page'])
-
-        # Adding M2M table for field sites on 'Page'
-        db.create_table('s7n_page_sites', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('page', models.ForeignKey(orm['pages.page'], null=False)),
-            ('site', models.ForeignKey(orm['sites.site'], null=False))
-        ))
-        db.create_unique('s7n_page_sites', ['page_id', 'site_id'])
 
 
     def backwards(self, orm):
         
         # Deleting model 'Page'
         db.delete_table('s7n_page')
-
-        # Removing M2M table for field sites on 'Page'
-        db.delete_table('s7n_page_sites')
 
 
     models = {
@@ -78,13 +68,13 @@ class Migration(SchemaMigration):
         },
         'pages.page': {
             'Meta': {'ordering': "('url',)", 'object_name': 'Page', 'db_table': "'s7n_page'"},
-            'admingroup': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'admingroup'", 'to': "orm['auth.Group']"}),
+            'admingroup': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'administers_pages'", 'to': "orm['auth.Group']"}),
             'content': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'content_html': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'group': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'pages'", 'null': 'True', 'to': "orm['auth.Group']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['sites.Site']", 'symmetrical': 'False'}),
+            'site': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['sites.Site']"}),
             'url': ('django.db.models.fields.CharField', [], {'max_length': '100', 'db_index': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
         },
