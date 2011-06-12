@@ -9,7 +9,7 @@ class Page(models.Model):
     name = models.CharField(_('name'), max_length=50)
     content = models.TextField(_('content'), blank=True)
     content_html = models.TextField(null=True, blank=True)
-    sites = models.ManyToManyField(Site, verbose_name=_('sites'))
+    site = models.ForeignKey(Site, verbose_name=_('site'))
     user = models.ForeignKey(User, verbose_name=_('user'))
     group = models.ForeignKey(Group, related_name='pages', verbose_name=_('group'), null=True, blank=True)
     admingroup = models.ForeignKey(Group, related_name='admingroup', verbose_name=_('writable for'))
@@ -18,6 +18,7 @@ class Page(models.Model):
         verbose_name = _('page')
         verbose_name_plural = _('pages')
         ordering = ('url',)
+        db_table = 's7n_page'
 
     def __unicode__(self):
         return u"%s -- %s" % (self.url, self.name)

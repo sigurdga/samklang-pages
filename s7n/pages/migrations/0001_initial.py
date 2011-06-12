@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding model 'Page'
-        db.create_table('pages_page', (
+        db.create_table('s7n_page', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('url', self.gf('django.db.models.fields.CharField')(max_length=100, db_index=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
@@ -22,21 +22,21 @@ class Migration(SchemaMigration):
         db.send_create_signal('pages', ['Page'])
 
         # Adding M2M table for field sites on 'Page'
-        db.create_table('pages_page_sites', (
+        db.create_table('s7n_page_sites', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('page', models.ForeignKey(orm['pages.page'], null=False)),
             ('site', models.ForeignKey(orm['sites.site'], null=False))
         ))
-        db.create_unique('pages_page_sites', ['page_id', 'site_id'])
+        db.create_unique('s7n_page_sites', ['page_id', 'site_id'])
 
 
     def backwards(self, orm):
         
         # Deleting model 'Page'
-        db.delete_table('pages_page')
+        db.delete_table('s7n_page')
 
         # Removing M2M table for field sites on 'Page'
-        db.delete_table('pages_page_sites')
+        db.delete_table('s7n_page_sites')
 
 
     models = {
@@ -77,7 +77,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'pages.page': {
-            'Meta': {'ordering': "('url',)", 'object_name': 'Page'},
+            'Meta': {'ordering': "('url',)", 'object_name': 'Page', 'db_table': "'s7n_page'"},
             'admingroup': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'admingroup'", 'to': "orm['auth.Group']"}),
             'content': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'content_html': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
