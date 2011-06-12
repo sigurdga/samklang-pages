@@ -6,13 +6,13 @@ from s7n.utils import markdown
 
 class Page(models.Model):
     url = models.CharField(_('URL'), max_length=100, db_index=True)
-    name = models.CharField(_('name'), max_length=50)
-    content = models.TextField(_('content'), blank=True)
+    name = models.CharField(_('Name'), max_length=50)
+    content = models.TextField(_('Content'), blank=True)
     content_html = models.TextField(null=True, blank=True)
-    site = models.ForeignKey(Site, verbose_name=_('site'))
-    user = models.ForeignKey(User, verbose_name=_('user'))
-    group = models.ForeignKey(Group, related_name='pages', verbose_name=_('group'), null=True, blank=True)
-    admingroup = models.ForeignKey(Group, related_name='admingroup', verbose_name=_('writable for'))
+    site = models.ForeignKey(Site, verbose_name=_('Site'))
+    user = models.ForeignKey(User, verbose_name=_('User'))
+    group = models.ForeignKey(Group, related_name='pages', verbose_name=_('Group'), null=True, blank=True)
+    admingroup = models.ForeignKey(Group, related_name='administers_pages', verbose_name=_('Writable for'))
 
     class Meta:
         verbose_name = _('page')
