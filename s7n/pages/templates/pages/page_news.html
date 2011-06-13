@@ -1,0 +1,5 @@
+{% if truncated %}
+    {{ item.content_object.content_html|truncatewords_html:50|safe }}
+{% else %}
+    {{ item.content_object.content_html|safe }}
+{% endif %}
