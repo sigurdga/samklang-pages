@@ -13,7 +13,10 @@ def page(request, url):
         return HttpResponseRedirect("%s/" % request.path)
     if not url.startswith('/'):
         url = "/" + url
-    f = get_object_or_404(Page, url__exact=url, site=request.site)
+    if hasattr(request, 'site'):
+        f = get_object_or_404(Page, url__exact=url, site=request.site)
+    else:
+        f = get_object_or_404(Page, url__exact=url)
     return render_flatpage(request, f)
 
 def render_flatpage(request, f):
