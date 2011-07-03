@@ -1,9 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'withaside.html' %}
 
+{% block bodyclass %}{{ page.document_class|default:block.super }}{% endblock bodyclass %}
 {% block title %}{{ page.name }}{% endblock title %}
 
-{% block content %}
+{% block main %}
 
 {{ page.content_html }}
 
-{% endblock %}
+{% endblock main %}
+
+{% block sidebar %}
+
+{% for pagewidget in page.widgets.all %}
+<p>{{ pagewidget.widget.render|safe }}</p>
+{% endfor %}
+
+{% endblock sidebar %}
