@@ -4,6 +4,7 @@ from distutils.core import setup
 setup(
         name = 's7n-pages',
         version = "1a1",
-        packages = ['s7n.pages'],
+        packages = ['s7n.pages', 's7n.pages.migrations'],
         package_data = {'s7n.pages': ['templates/pages/*.html']},
+        py_modules = ['s7n.pages.pagewidgets'],
         )
