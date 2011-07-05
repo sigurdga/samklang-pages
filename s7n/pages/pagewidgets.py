@@ -18,6 +18,21 @@ class Widget(object):
     def get_option_dict(self):
         return self.options
 
+class Image(Widget):
+    """Image widget for adding an image"""
+
+    def render(self):
+        print self.options
+        retval = u"""
+<img class="%(class)s" src="%(src)s" alt="%(alt)s" />
+        """ % {
+            'class': self.options.get('class', ''),
+            'src': self.options.get('src', ''),
+            'alt': self.options.get('alt', ''),
+        }
+        return retval
+
+
 class Slider(Widget):
 
     def render(self):
@@ -68,5 +83,4 @@ class Slider(Widget):
 </div>
 <img src="/static/img/frame.png" width="452" height="338" alt="Frame" id="frame">""" % {'STATIC_URL': settings.STATIC_URL}
 
-        print retval
         return retval
