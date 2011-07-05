@@ -34,9 +34,10 @@ class Image(Widget):
 
 
 class Slider(Widget):
-
     def render(self):
-        retval =  u"""
+        """Render slider widget using options from json field"""
+
+        javascript = u"""
         <script src="%(STATIC_URL)sjs/slides.min.jquery.js"></script>
 		<script>
     		$(function(){
@@ -64,23 +65,10 @@ class Slider(Widget):
     			});
     		});
     	</script>
+        """ % {"STATIC_URL": settings.STATIC_URL}
 
-        <div id="slides">
-<div class="slides_container">
-<div class="slide">
-<a href="http://nidarholm.no/" title="nidarholm.no" target="_blank"><img src="%(STATIC_URL)simg/nidarholm.no.png" width="386" height="283" alt="Skjermbilde nidarholm.no"></a>
-<div class="caption" style="bottom:0">
-<p>Nidarholm</p>
-</div>
-</div>
-<div class="slide">
-<a href="/static/img/moldejazzarkivet.png" title="Moldelazzarkivet" target="_blank"><img src="%(STATIC_URL)simg/moldejazzarkivet.png" width="386" height="283" alt="Skjermbilde Moldejazzarkivet"></a>
-<div class="caption">
-<p>Historisk arkiv for Moldejazz</p>
-</div>
-</div>
-</div>
-</div>
-<img src="/static/img/frame.png" width="452" height="338" alt="Frame" id="frame">""" % {'STATIC_URL': settings.STATIC_URL}
+        slides = [ u"""<div class="slide"><a href="%(url)s" title="%(title)s"><img src="%(src)s" width="386" height="283" alt="%(alt)s"></a><div class="caption" style="bottom:0"><p>%(title)s</p></div></div>""" % {'url': slide.get('url', slide.get('src')), 'title': slide.get('title', ''), 'alt': slide.get('alt', slide.get('title', '')), 'src': slide.get('src', '') } for slide in self.options.get("slides") ]
 
-        return retval
+        html = u"""<div id="slides"><div class="slides_container">""" + "".join(slides) + u"""</div></div><img src="/static/img/frame.png" width="452" height="338" alt="Frame" id="frame">"""
+
+        return javascript + html
