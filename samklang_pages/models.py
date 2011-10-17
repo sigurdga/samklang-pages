@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
-from s7n_utils import markdown
+from samklang_utils import markdown
 
 class Page(models.Model):
     url = models.CharField(_('URL'), max_length=100, db_index=True)
