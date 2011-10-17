@@ -22,7 +22,6 @@ class Page(models.Model):
         verbose_name_plural = _('pages')
         ordering = ('url',)
         db_table = 'samklang_page'
-	app_label = 'Samklang'
 
     def __unicode__(self):
         return u"%s -- %s" % (self.url, self.name)
@@ -46,7 +45,6 @@ class PageWidget(models.Model):
         verbose_name_plural = _('Page widgets')
         ordering = ('position', 'widget_name')
 	db_table = 'samklang_pagewidget'
-	app_label = 'Samklang'
 
     def __unicode__(self):
         return u"%s: %s" % (self.widget_name, self.page.name)
