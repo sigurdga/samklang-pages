@@ -1,5 +1,5 @@
 from django.forms import ModelForm, RegexField
-from s7n.pages.models import Page
+from samklang_pages.models import Page
 from django.utils.translation import ugettext_lazy as _
 
 class PageForm(ModelForm):

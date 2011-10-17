@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from samklang_pages.models import Page
 
 class Widget(object):
 
@@ -22,7 +24,7 @@ class Image(Widget):
     """Image widget for adding an image"""
 
     def render(self):
-        print self.options
+        #print self.options
         retval = u"""
 <img class="%(class)s" src="%(src)s" alt="%(alt)s" />
         """ % {
@@ -31,6 +33,17 @@ class Image(Widget):
             'alt': self.options.get('alt', ''),
         }
         return retval
+
+class StaticPage(Widget):
+    """Fill in the contents of another static page into a widget"""
+
+    def render(self):
+        url = self.options.get('url')
+        try:
+            page = Page.objects.get(url=url)
+            return page.content_html
+        except ObjectDoesNotExist:
+            return u""
 
 
 class Slider(Widget):

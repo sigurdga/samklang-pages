@@ -1,6 +1,6 @@
 from django.contrib import admin
-from s7n.pages.models import Page, PageWidget
-from s7n.pages.forms import PageForm
+from samklang_pages.models import Page, PageWidget
+from samklang_pages.forms import PageForm
 
 class PageWidgetInline(admin.TabularInline):
     model = PageWidget
@@ -8,7 +8,7 @@ class PageWidgetInline(admin.TabularInline):
 class PageAdminForm(PageForm):
 
     class Meta:
-        fields = ('url', 'name', 'content', 'site', 'user', 'group', 'admingroup', 'document_class')
+        fields = ('url', 'name', 'content', 'site', 'user', 'group', 'admingroup',)# 'document_class')
 
 class PageAdmin(admin.ModelAdmin):
     form = PageAdminForm

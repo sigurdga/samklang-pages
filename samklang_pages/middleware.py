@@ -1,4 +1,4 @@
-from s7n.pages.views import page
+from samklang_pages.views import page
 from django.http import Http404
 from django.conf import settings
 

@@ -4,9 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.core.xheaders import populate_xheaders
 from django.utils.safestring import mark_safe
-from s7n.pages.models import Page
+from samklang_pages.models import Page
 
-DEFAULT_TEMPLATE = 'pages/default.html'
+DEFAULT_TEMPLATE = 'samklang_pages/default.html'
 
 def page(request, url):
     if not url.endswith('/') and settings.APPEND_SLASH:

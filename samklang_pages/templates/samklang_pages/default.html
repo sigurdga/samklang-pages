@@ -12,7 +12,7 @@
 {% block sidebar %}
 
 {% for pagewidget in page.widgets.all %}
-<p>{{ pagewidget.widget.render|safe }}</p>
+{{ pagewidget.widget.render|safe }}
 {% endfor %}
 
 {% endblock sidebar %}

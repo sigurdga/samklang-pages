@@ -8,33 +8,38 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'PageWidget'
-        db.create_table('pages_pagewidget', (
+        # Adding model 'Page'
+        db.create_table('samklang_page', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('page', self.gf('django.db.models.fields.related.ForeignKey')(related_name='widgets', to=orm['pages.Page'])),
+            ('url', self.gf('django.db.models.fields.CharField')(max_length=100, db_index=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('content', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('content_html', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('site', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sites.Site'])),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('group', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='pages', null=True, to=orm['auth.Group'])),
+            ('admingroup', self.gf('django.db.models.fields.related.ForeignKey')(related_name='administers_pages', to=orm['auth.Group'])),
+        ))
+        db.send_create_signal('samklang_pages', ['Page'])
+
+        # Adding model 'PageWidget'
+        db.create_table('samklang_pagewidget', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('page', self.gf('django.db.models.fields.related.ForeignKey')(related_name='widgets', to=orm['samklang_pages.Page'])),
             ('widget_name', self.gf('django.db.models.fields.CharField')(max_length=30)),
             ('position', self.gf('django.db.models.fields.IntegerField')()),
             ('options', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
-        db.send_create_signal('pages', ['PageWidget'])
-
-        # Adding field 'Page.document_class'
-        db.add_column('s7n_page', 'document_class', self.gf('django.db.models.fields.SlugField')(db_index=True, default='', max_length=20, blank=True), keep_default=False)
-
-        # Changing field 'Page.name'
-        db.alter_column('s7n_page', 'name', self.gf('django.db.models.fields.Field')(max_length=50))
+        db.send_create_signal('samklang_pages', ['PageWidget'])
 
 
     def backwards(self, orm):
         
+        # Deleting model 'Page'
+        db.delete_table('samklang_page')
+
         # Deleting model 'PageWidget'
-        db.delete_table('pages_pagewidget')
-
-        # Deleting field 'Page.document_class'
-        db.delete_column('s7n_page', 'document_class')
-
-        # Changing field 'Page.name'
-        db.alter_column('s7n_page', 'name', self.gf('django.db.models.fields.CharField')(max_length=50))
+        db.delete_table('samklang_pagewidget')
 
 
     models = {
@@ -74,24 +79,23 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'pages.page': {
-            'Meta': {'ordering': "('url',)", 'object_name': 'Page', 'db_table': "'s7n_page'"},
+        'samklang_pages.page': {
+            'Meta': {'ordering': "('url',)", 'object_name': 'Page', 'db_table': "'samklang_page'"},
             'admingroup': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'administers_pages'", 'to': "orm['auth.Group']"}),
             'content': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'content_html': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'document_class': ('django.db.models.fields.SlugField', [], {'db_index': 'True', 'max_length': '20', 'blank': 'True'}),
             'group': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'pages'", 'null': 'True', 'to': "orm['auth.Group']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.Field', [], {'max_length': '50'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'site': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['sites.Site']"}),
             'url': ('django.db.models.fields.CharField', [], {'max_length': '100', 'db_index': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
         },
-        'pages.pagewidget': {
-            'Meta': {'ordering': "('position', 'widget_name')", 'object_name': 'PageWidget'},
+        'samklang_pages.pagewidget': {
+            'Meta': {'ordering': "('position', 'widget_name')", 'object_name': 'PageWidget', 'db_table': "'samklang_pagewidget'"},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'options': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'page': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'widgets'", 'to': "orm['pages.Page']"}),
+            'page': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'widgets'", 'to': "orm['samklang_pages.Page']"}),
             'position': ('django.db.models.fields.IntegerField', [], {}),
             'widget_name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         },
@@ -103,4 +107,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['pages']
+    complete_apps = ['samklang_pages']
