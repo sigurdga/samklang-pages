@@ -23,5 +23,5 @@ admin.site.register(Page, PageAdmin)
 class PageWidgetAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(PageWidget, PageWidgetAdmin)
+#admin.site.register(PageWidget, PageWidgetAdmin)
 
