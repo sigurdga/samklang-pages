@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-02 04:00+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: forms.py:8 models.py:10
+msgid "URL"
+msgstr "URL"
+
+#: forms.py:11
+msgid ""
+"Example: '/about/contact/'. Make sure to have leading and trailing slashes."
+msgstr "Eksempel: '/om/kontakt/'. Pass på å ha skråstreker først og sist."
+
+#: forms.py:13
+msgid ""
+"This value must contain only letters, numbers, underscores, dashes or "
+"slashes."
+msgstr ""
+"Kan bare inneholde bokstaver, tall, lave streker, bindestreker eller "
+"skråstreker"
+
+#: forms.py:16
+msgid "Public"
+msgstr "Hele verden"
+
+#: forms.py:16
+msgid "Read permission"
+msgstr "Lesbar for"
+
+#: models.py:11
+msgid "name"
+msgstr "navn"
+
+#: models.py:11
+msgid "Used for page list. Remember to create a heading in the content field."
+msgstr ""
+"Brukt i siden som viser alle. Husk at du må bruke overskrift i dokumentet."
+
+#: models.py:12
+msgid "content"
+msgstr "innhold"
+
+#: models.py:14
+msgid "site"
+msgstr "nettsted"
+
+#: models.py:15
+msgid "user"
+msgstr "bruker"
+
+#: models.py:16
+msgid "read permission"
+msgstr "gruppe som kan lese"
+
+#: models.py:17
+msgid "write permission"
+msgstr "gruppe som kan skrive"
+
+#: models.py:21 models.py:38
+msgid "page"
+msgstr "side"
+
+#: models.py:22
+msgid "pages"
+msgstr "sider"
+
+#: models.py:40
+msgid "position"
+msgstr "posisjon"
+
+#: models.py:41
+msgid "options"
+msgstr "alternativer"
+
+#: models.py:44
+msgid "Page widget"
+msgstr "Side-widget"
+
+#: models.py:45
+msgid "Page widgets"
+msgstr "Side-widgets"
+
+#: templates/samklang_pages/page_form.html:7
+#: templates/samklang_pages/page_list.html:17
+msgid "Edit"
+msgstr "Rediger"
+
+#: templates/samklang_pages/page_form.html:14
+msgid "Save"
+msgstr "Lagre"
+
+#: templates/samklang_pages/page_list.html:4
+#: templates/samklang_pages/page_list.html:8
+msgid "All pages"
+msgstr "Alle sider"
+
+#: templates/samklang_pages/page_list.html:19
+msgid "Add to menu"
+msgstr "Legg til i meny"
+
+#~ msgid "List menu"
+#~ msgstr "Rediger meny"

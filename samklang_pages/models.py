@@ -8,13 +8,13 @@ from samklang_utils import markdown
 
 class Page(models.Model):
     url = models.CharField(_('URL'), max_length=100, db_index=True)
-    name = models.CharField(_('Name'), max_length=50)
-    content = models.TextField(_('Content'), blank=True)
+    name = models.CharField(_('name'), max_length=50, help_text=_("Used for page list. Remember to create a heading in the content field."))
+    content = models.TextField(_('content'), blank=True)
     content_html = models.TextField(null=True, blank=True)
-    site = models.ForeignKey(Site, verbose_name=_('Site'))
-    user = models.ForeignKey(User, verbose_name=_('User'))
-    group = models.ForeignKey(Group, related_name='pages', verbose_name=_('Group'), null=True, blank=True)
-    admingroup = models.ForeignKey(Group, related_name='administers_pages', verbose_name=_('Writable for'))
+    site = models.ForeignKey(Site, verbose_name=_('site'))
+    user = models.ForeignKey(User, verbose_name=_('user'))
+    group = models.ForeignKey(Group, related_name='pages', verbose_name=_('read permission'), null=True, blank=True)
+    admingroup = models.ForeignKey(Group, related_name='administers_pages', verbose_name=_('write permission'))
     #document_class = models.SlugField(max_length=20, blank=True)
 
     class Meta:
@@ -35,10 +35,10 @@ class Page(models.Model):
         super(Page, self).save(*args, **kwargs)
 
 class PageWidget(models.Model):
-    page = models.ForeignKey(Page, verbose_name=_('Page'), related_name='widgets')
+    page = models.ForeignKey(Page, verbose_name=_('page'), related_name='widgets')
     widget_name = models.CharField(max_length=30)
-    position = models.IntegerField(verbose_name=_('Position'))
-    options = models.TextField(blank=True, verbose_name=_('Options'))
+    position = models.IntegerField(verbose_name=_('position'))
+    options = models.TextField(blank=True, verbose_name=_('options'))
 
     class Meta:
         verbose_name = _('Page widget')

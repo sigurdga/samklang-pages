@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "All pages" %}{% endblock %}
+
+{% block main %}
+
+<h1>{% trans "All pages" %}</h1>
+
+{% for object in object_list %}
+<div>
+    <h2>{{ object.name }}</h2>
+    <p>
+    <a href="{{ object.get_absolute_url }}">{{ object.url }}</a>
+    {% if not object.group or object.group in request.user.groups.all or request.user.is_superuser %}
+    –
+    <a href="{% url pages-page-edit object.id %}">{% trans "Edit" %}</a>
+    –
+    <a href="{% url pages-menu-add object.id %}">{% trans "Add to menu" %}</a>
+    {% endif %}
+    </p>
+</div>
+{% endfor %}
+
+{% endblock main %}
