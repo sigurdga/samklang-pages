@@ -34,28 +34,3 @@ class Page(models.Model):
         self.content_html = markdown(self.content.strip())
         super(Page, self).save(*args, **kwargs)
 
-class PageWidget(models.Model):
-    page = models.ForeignKey(Page, verbose_name=_('page'), related_name='widgets')
-    widget_name = models.CharField(max_length=30)
-    position = models.IntegerField(verbose_name=_('position'))
-    options = models.TextField(blank=True, verbose_name=_('options'))
-
-    class Meta:
-        verbose_name = _('Page widget')
-        verbose_name_plural = _('Page widgets')
-        ordering = ('position', 'widget_name')
-	db_table = 'samklang_pagewidget'
-
-    def __unicode__(self):
-        return u"%s: %s" % (self.widget_name, self.page.name)
-
-    def widget(self):
-        app, widget_name = self.widget_name.rsplit(".", 1)
-        imp = __import__(app + ".pagewidgets", globals(), locals(), [widget_name])
-        widget_class = getattr(imp, widget_name)
-        try:
-            options = simplejson.loads(self.options)
-        except simplejson.JSONDecodeError:
-            options = {}
-        widget = widget_class(options)
-        return widget
