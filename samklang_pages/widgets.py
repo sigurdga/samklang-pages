@@ -6,7 +6,7 @@ from samklang_pages.models import Page
 class Image(Widget):
     """Image widget for adding an image"""
 
-    def render(self):
+    def render(self, request):
         #print self.options
         retval = u"""
 <img class="%(class)s" src="%(src)s" alt="%(alt)s" />
@@ -20,17 +20,20 @@ class Image(Widget):
 class StaticPage(Widget):
     """Fill in the contents of another static page into a widget"""
 
-    def render(self):
+    def render(self, request):
         url = self.options.get('url')
         try:
-            page = Page.objects.get(url=url)
-            return page.content_html
+            page = Page.objects.get(site=request.site, url=url)
+            if not page.group or page.group in request.user.groups.all():
+                return page.content_html
+            else:
+                return ""
         except ObjectDoesNotExist:
             return u""
 
 
 class Slider(Widget):
-    def render(self):
+    def render(self, request):
         """Render slider widget using options from json field"""
 
         javascript = u"""
