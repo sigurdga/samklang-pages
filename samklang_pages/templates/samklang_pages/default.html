@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block bodyclass %}{{ page.document_class|default:block.super }}{% endblock bodyclass %}
 {% block title %}{{ page.name }}{% endblock title %}
@@ -9,10 +10,8 @@
 
 {% endblock main %}
 
-{% block sidebar %}
-
-{% for pagewidget in page.widgets.all %}
-{{ pagewidget.widget.render|safe }}
-{% endfor %}
-
-{% endblock sidebar %}
+{% block context_menu %}
+{% if request.user.is_superuser %}
+<li><a href="{% url pages-page-edit page.id %}">{% trans "Edit" %}</a></li>
+{% endif %}
+{% endblock %}

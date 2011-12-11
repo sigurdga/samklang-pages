@@ -2,16 +2,28 @@
 {% load i18n %}
 {% load uni_form_tags %}
 
+{% block title %}{% trans "Edit" %}{% endblock %}
+
 {% block main %}
+                <div id='wmd-preview-area'></div>
+{% endblock %}
+
+{% block sidebar %}
 
 <h1>{% trans "Edit" %}</h1>
 
 <form action="" method="post" class="uniForm">
-        <fieldset class="inlineLabels">
+        <fieldset class="blockLabels">
         {% csrf_token %}
         {{ form|as_uni_form }}
     </fieldset>
-    <button type="submit">{% trans "Save" %}</button>
+    <div class="buttonHolder">
+        <button type="submit" name="submit" class="primaryAction">{% trans "Save" %}</button>
+    </div>
 </form>
 
+{% endblock %}
+
+{% block footer_include %}
+{{ form.media }}
 {% endblock %}
