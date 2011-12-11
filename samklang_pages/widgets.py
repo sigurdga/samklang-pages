@@ -1,7 +1,10 @@
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 from samklang_menu.widgets import Widget
 from samklang_pages.models import Page
+
 
 class Image(Widget):
     """Image widget for adding an image"""
@@ -25,7 +28,17 @@ class StaticPage(Widget):
         try:
             page = Page.objects.get(site=request.site, url=url)
             if not page.group or page.group in request.user.groups.all():
-                return page.content_html
+                ret = '<div class="widget">'
+                if request.user.is_superuser:
+                    ret += '<div class="widget-context-menu"><a href="%(edit-url)s" title="%(edit-help-text)s">%(edit-link-text)s</a></div>' % {
+                        'edit-url': reverse('pages-page-edit', args=(page.id,)),
+                        'edit-help-text': _('Edit'),
+                        'edit-link-text': "&#9998;",
+                        }
+                ret += '%(content)s</div>' % {
+                        'content': page.content_html,
+                        }
+                return ret
             else:
                 return ""
         except ObjectDoesNotExist:
