@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
         name='samklang-pages',
-        version="0.3.0",
+        version="0.3.1",
         author='Sigurd Gartmann',
         author_email='sigurdga-samklang@sigurdga.no',
         url='http://github.com/sigurdga/samklang-pages',
@@ -11,8 +11,7 @@ setup(
         long_description=open('README.txt').read(),
         license="AGPL",
         packages=['samklang_pages', 'samklang_pages.migrations'],
-        package_data={'samklang_pages': ['templates/samklang_pages/*.html', 'locale/*/LC_MESSAGES/django.*o']},
-        py_modules=['samklang_pages.pagewidgets'],
+        package_data={'samklang_pages': ['templates/samklang_pages/*.html', 'static/js/*.js', 'locale/*/LC_MESSAGES/django.*o']},
         classifiers=[
             "Development Status :: 3 - Alpha",
             "License :: OSI Approved :: GNU Affero General Public License v3",
