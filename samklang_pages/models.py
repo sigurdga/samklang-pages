@@ -26,7 +26,6 @@ class Page(models.Model):
     def __unicode__(self):
         return u"%s -- %s" % (self.url, self.name)
 
-    @models.permalink
     def get_absolute_url(self):
         return self.url
 
