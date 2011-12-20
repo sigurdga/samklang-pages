@@ -1,3 +1,6 @@
+from functools import partial
+import re
+
 from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -9,10 +12,13 @@ from django.db.models.query_utils import Q
 from django.views.generic import CreateView, UpdateView, ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils import simplejson
+
 from samklang_pages.models import Page
 from samklang_pages.forms import PageForm
 from samklang_menu.models import Menu
 
+WIDGET_REGEX = re.compile(r'!\{(\w+\.\w+)(?:\s+(.*?))?\}')
 DEFAULT_TEMPLATE = 'samklang_pages/default.html'
 
 def page(request, url):
@@ -28,6 +34,21 @@ def page(request, url):
         raise Http404
     return render_flatpage(request, f)
 
+def widget_replace(request, matchobj):
+    widget_name, widget_context = matchobj.group(1, 2)
+    widget_context = "{" + widget_context + "}"
+    app, widget_name = widget_name.rsplit(".", 1)
+    imp = __import__(app + ".widgets", globals(), locals(), [widget_name])
+    widget_class = getattr(imp, widget_name, None)
+    if widget_class:
+        try:
+            options = simplejson.loads(widget_context)
+        except:
+            options = {}
+        return widget_class(options).render(request)
+    else:
+        return ""
+
 def render_flatpage(request, f):
     t = loader.get_template(DEFAULT_TEMPLATE)
 
@@ -40,7 +61,9 @@ def render_flatpage(request, f):
     c = RequestContext(request, {
         'page': f,
     })
-    response = HttpResponse(t.render(c))
+    rendered = t.render(c)
+    rendered_replaced = WIDGET_REGEX.sub(partial(widget_replace, request), rendered)
+    response = HttpResponse(rendered_replaced)
     populate_xheaders(request, response, Page, f.id)
     return response
 
