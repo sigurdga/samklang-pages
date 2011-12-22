@@ -23,3 +23,10 @@
 {% endfor %}
 
 {% endblock main %}
+
+{% block context_menu %}
+{% if request.user.is_authenticated %}
+<li><a href="{% url pages-page-new %}">{% trans "New" %}</a></li>
+{% endif %}
+{% endblock %}
+
