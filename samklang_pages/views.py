@@ -5,7 +5,6 @@ from django.template import loader, RequestContext
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
-from django.core.xheaders import populate_xheaders
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.db.models.query_utils import Q
@@ -64,7 +63,6 @@ def render_flatpage(request, f):
     rendered = t.render(c)
     rendered_replaced = WIDGET_REGEX.sub(partial(widget_replace, request), rendered)
     response = HttpResponse(rendered_replaced)
-    populate_xheaders(request, response, Page, f.id)
     return response
 
 class PageCreateView(CreateView):
